@@ -9,5 +9,9 @@ docker-compose -f docker-compose.yml up -d
 Once the dockers are up, make a curl command to 2121 port to talk to the chatbot
 
 ```
-curl -X POST http://localhost:2121/post_question/ --data {"question":"How are you?"}
+curl --location 'http://0.0.0.0:2121/post_question/' \
+--header 'Content-Type: application/json' \
+--data '{
+    "question": "What is open5gs?"
+}'
 ```

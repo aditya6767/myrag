@@ -1,0 +1,26 @@
+FROM ubuntu:22.04
+
+
+ARG DEBIAN_FRONTEND="noninteractive"
+RUN apt-get update && apt install -y --no-install-recommends software-properties-common build-essential cron g++ wget cmake curl
+
+RUN curl -fsSL https://ollama.com/install.sh | sh
+ENV LLAMA_HOME=/srv/home
+WORKDIR $LLAMA_HOME
+
+ADD start.sh $LLAMA_HOME/
+
+RUN chmod u+x $LLAMA_HOME/start.sh
+
+ENV OLLAMA_HOST=0.0.0.0
+ENV OLLAMA_ORIGINS=http://0.0.0.0:11434
+
+
+RUN nohup bash -c "ollama serve &" && sleep 5 && ollama pull llama2
+EXPOSE 11434
+
+CMD ["/srv/home/start.sh"]
+
+
+
+
