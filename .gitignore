@@ -1,0 +1,5 @@
+dev.env
+.vscode
+__pycache__
+data
+checkpoints

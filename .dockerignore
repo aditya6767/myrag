@@ -1,0 +1,6 @@
+**/dev.env
+Jenkinsfile
+Dockerfile
+media
+.vscode
+data

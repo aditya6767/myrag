@@ -1,0 +1,26 @@
+version: "3"
+services:
+  rag_api:
+    container_name: rag-api
+    image: aditya/rag:latest
+    restart: always
+    command: python manage.py runserver 0.0.0.0:8000
+    env_file: rag.env
+    volumes:
+      - chromadb:/srv/data/chromadb
+    ports:
+      - "2000:8000"
+  rag_docker_database:
+    image: postgres:14
+    restart: always
+    environment:
+      - POSTGRES_PASSWORD=rag@123
+      - POSTGRES_USER=raguser
+      - POSTGRES_DB=ragdb
+    volumes:
+      - rag-postgres:/var/lib/postgresql/data/
+    ports:
+      - "5438:5432"
+volumes:
+  rag-postgres:
+  chromadb:
