@@ -2,14 +2,22 @@ version: "3"
 services:
   rag_api:
     container_name: rag-api
-    image: aditya/rag:latest
+    image: adityajaiswal6767/rag_app:1.1.1
     restart: always
-    command: python manage.py runserver 0.0.0.0:8000
+    command: python3 manage.py runserver 0.0.0.0:8000
     env_file: rag.env
     volumes:
       - chromadb:/srv/data/chromadb
+      - llm-checkpoints:/srv/data/checkpoints
     ports:
-      - "2000:8000"
+      - "2121:8000"
+  llm_checkpoints:
+    image: adityajaiswal6767/llm_checkpoints:1.1.1
+    container_name: llm_checkpoints
+    command: "tail -f /dev/null"
+    restart: unless-stopped
+    volumes:
+      - llm-checkpoints:/checkpoints
   rag_docker_database:
     image: postgres:14
     restart: always
@@ -20,7 +28,8 @@ services:
     volumes:
       - rag-postgres:/var/lib/postgresql/data/
     ports:
-      - "5438:5432"
+      - "5439:5432"
 volumes:
   rag-postgres:
   chromadb:
+  llm-checkpoints:
