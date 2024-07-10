@@ -11,6 +11,13 @@ services:
       - llm-checkpoints:/srv/data/checkpoints
     ports:
       - "2121:8000"
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
   llama-service:
     container_name: llama-service
     image: adityadockerhub6767/ollama:1.1.1
@@ -19,6 +26,13 @@ services:
       - rag-ollama:/root/.ollama
     ports:
       - "11434:11434"
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
   rag_docker_database:
     image: postgres:14
     restart: always
